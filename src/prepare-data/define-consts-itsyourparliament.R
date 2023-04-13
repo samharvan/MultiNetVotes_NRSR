@@ -100,17 +100,17 @@ VOTE.IYP2SYMB["Against"] <- VOTE.AGST
 
 
 #############################################################################################
-# Group mapping
+# Group mapping (Tu treba dat vsetky mozne aliasy pre strany v 7 volebnom obdobi)
 #############################################################################################
 GROUP.IYP2SYMB <- c()
-GROUP.IYP2SYMB["ALDE"] <- GROUP.ALDE
-GROUP.IYP2SYMB["ECR"] <- GROUP.ECR
-GROUP.IYP2SYMB["EFD"] <- GROUP.EFD
-GROUP.IYP2SYMB["PPE"] <- GROUP.EPP
-GROUP.IYP2SYMB["Verts/ALE"] <- GROUP.GREENS
-GROUP.IYP2SYMB["GUE/NGL"] <- GROUP.GUENGL
-GROUP.IYP2SYMB["NI"] <- GROUP.NI
-GROUP.IYP2SYMB["SD"] <- GROUP.SD
+GROUP.IYP2SYMB["SMER – sociálna demokracia"] <- GROUP.SMER
+GROUP.IYP2SYMB["Slovenská národná strana"] <- GROUP.SNS
+GROUP.IYP2SYMB["#SIEŤ"] <- GROUP.SIET
+GROUP.IYP2SYMB["OBYČAJNÍ ĽUDIA a nezávislé osobnosti (OĽANO-NOVA)"] <- GROUP.OLANO
+GROUP.IYP2SYMB["MOST-HÍD"] <- GROUP.MOST
+GROUP.IYP2SYMB["Sloboda a Solidarita"] <- GROUP.SAS
+GROUP.IYP2SYMB["Kotleba - Ľudová strana Naše Slovensko"] <- GROUP.LSNS
+GROUP.IYP2SYMB["SME RODINA - Boris Kollár"] <- GROUP.SMERODINA
 
 
 
@@ -137,9 +137,11 @@ GROUP.IYP2SYMB["SD"] <- GROUP.SD
 # Constants used when downloading the IYP data from the website.
 #############################################################################################
 # list of the effective MEP ids
-IYP.MEP.IDS		<- 1:870#[-c(325,587,627,724,739,746,758,759,760,793,794,795)]
+poslanci = read.csv("/home/samuel/bachelorsthesis/data/7volobdobie_attributes.csv")
+IYP.MEP.IDS		<- poslanci$mp_id
 # list of the effective vote ids
-IYP.VOTE.IDS	<- 1:7513
+hlasovania = read.csv("/home/samuel/bachelorsthesis/data/7volobdobie_rollcalls.csv")
+IYP.VOTE.IDS	<- hlasovania$vote_id_total
 # list of the effective domain ids
 IYP.DOMAIN.IDS	<- 26:58#[-c(32,45,49,50,52)]
 # URLs

@@ -253,7 +253,7 @@ process.stat.distribution.complete <- function(all.votes, doc.details, mep.detai
 			else
 			{	# order the votes by date
 				filtered.doc.details <- doc.details[idx,]
-				indices <- order(as.Date(filtered.doc.details[,COL.DATE],"%d/%m/%Y"))
+				indices <- order(as.Date(filtered.doc.details[,COL.DATE],"%Y-%m-%d"))
 				
 				# get the corresponding votes from the complete table
 				cols <- match(filtered.doc.ids, colnames(all.votes))

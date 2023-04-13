@@ -39,21 +39,21 @@ dataset.name <- "IYP"		# It's your Parliament
 
 ##################### domains
 #domains <- c(DOMAIN.VALUES, DOMAIN.ALL)			# which domains to process individually
-#domains <- DOMAIN.ALL
+domains <- c(DOMAIN.ALL)
 #domains <- c(DOMAIN.AGRI, DOMAIN.FEMM, DOMAIN.ECON)
 #domains <- c(DOMAIN.FEMM)
-domains <- c(DOMAIN.AGRI)
+#domains <- c(DOMAIN.AGRI)
 #domains <- c(DOMAIN.VW2SYMB[TEST.DOMAINS],DOMAIN.ALL)
 ##################### dates
 #dates <- c(DATE.T7.YEARS, DATE.T7.TERM)			# which time periods to process individually
 #DATE.T7.YEARS <- c(DATE.T7.Y1, DATE.T7.Y2, DATE.T7.Y3, DATE.T7.Y4, DATE.T7.Y5)
-#dates <- c(DATE.T7.TERM)
-dates <- c(DATE.T7.Y4)
+dates <- c(DATE.T7.TERM)
+#dates <- c(DATE.T7.Y4)
 #DATE.T7.YEARS <- c(DATE.T7.Y2, DATE.T7.Y3, DATE.T7.Y5)
 #dates = c(DATE.T7.YEARS)
-#dates <- C(
-#		DATE.T7.Y1
-#		DATE.T7.Y2
+#dates <- c(
+#		DATE.T7.Y1,
+#		DATE.T7.Y2,
 #		DATE.T7.Y3,
 #		DATE.T7.Y4,
 #		DATE.T7.Y5,
@@ -61,18 +61,18 @@ dates <- c(DATE.T7.Y4)
 #)
 #dates <- TEST.YEARS
 ##################### everything at once
-#everything <- TRUE								# whether or not to process all data without distinction of country or date
-everything <- FALSE
+everything <- TRUE								# whether or not to process all data without distinction of country or date
+#everything <- FALSE
 ##################### countries
-#countries <- COUNTRY.VALUES						# which country to process individually
-countries <- c(COUNTRY.FR)
+countries <- COUNTRY.VALUES						# which country to process individually
+#countries <- c(COUNTRY.FR)
 #countries <- c()
 #countries <- c(COUNTRY.FR, COUNTRY.IT, COUNTRY.UK)
 #countries <- TEST.COUNTRIES
 
 ##################### groups
-#groups <- GROUP.VALUES
-groups <- c()
+groups <- GROUP.VALUES
+#groups <- c()
 # which group to process individually
 #groups <- c(GROUP.EPP)
 #groups <- GROUP.VW2SYMB[TEST.GROUPS]

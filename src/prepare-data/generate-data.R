@@ -19,11 +19,11 @@ V.AGAINST <- "Against"
 V.ABSTAIN <- "Abstain"
 V.ABSENT <- "Absent"
 # only focus on certain domains, countries etc. (no need to treat them all just for testing)
-TEST.COUNTRIES <- c(COUNTRY.AT,COUNTRY.BE,COUNTRY.BG)
-TEST.GROUPS <- names(GROUP.VW2SYMB)[1:3]
-TEST.DOMAINS <- names(DOMAIN.VW2SYMB[1:3])
-TEST.DATES <- c(DATE.START.T7[[DATE.T7.Y1]],DATE.END.T7[[DATE.T7.Y2]])
-TEST.YEARS <- c(DATE.T7.Y1,DATE.T7.Y2,DATE.T7.TERM)
+#TEST.COUNTRIES <- c(COUNTRY.AT,COUNTRY.BE,COUNTRY.BG)
+#TEST.GROUPS <- names(GROUP.VW2SYMB)[1:3]
+#TEST.DOMAINS <- names(DOMAIN.VW2SYMB[1:3])
+#TEST.DATES <- c(DATE.START.T7[[DATE.T7.Y1]],DATE.END.T7[[DATE.T7.Y2]])
+#TEST.YEARS <- c(DATE.T7.Y1,DATE.T7.Y2,DATE.T7.TERM)
 
 
 #############################################################################################

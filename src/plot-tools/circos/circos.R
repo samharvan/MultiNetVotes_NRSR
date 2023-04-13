@@ -36,7 +36,7 @@ source("src/define-imports.R")
 #############################################################################################
 # location and name of the Circos command in the Circos folder 
 #CIRCOS_CMD <- "/home/nejat/Downloads/circos-0.69-5/bin/circos"	# TODO this should be changed according to your installation
-CIRCOS_CMD <- "/opt/circos-0.69-6/bin/circos"	# TODO this should be changed according to your installation
+CIRCOS_CMD <- "/home/samuel/Downloads/circos-0.69-9/bin/circos"	# TODO this should be changed according to your installation
 
 # location of the temp Circos file in the project
 CIRCOS_RES <- "res/circos"
@@ -83,37 +83,32 @@ COL.CIRCOS.GROUPING = NA
 # ---------------------------
 
 # CIRCOS_COUNTRIES_ORDERED has the same order as COUNTRY.VALUES
-north.indx = which(EU.REGION.FOR.STATE == "Northern")
+
 west.indx = which(EU.REGION.FOR.STATE == "Western")
 center.indx = which(EU.REGION.FOR.STATE == "Central")
-s.east.indx = which(EU.REGION.FOR.STATE == "Southeastern")
-south.indx = which(EU.REGION.FOR.STATE == "Southern")
+east.indx = which(EU.REGION.FOR.STATE == "Eastern")
+
 
 # countries in alphabetical order
 #CIRCOS_COUNTRIES_ORDERED <- c(COUNTRY.VALUES)
 # regional order
 CIRCOS_COUNTRIES_ORDERED <- c(
-		COUNTRY.VALUES[north.indx],
 		COUNTRY.VALUES[west.indx], 
 		COUNTRY.VALUES[center.indx],
-		COUNTRY.VALUES[s.east.indx],
-		COUNTRY.VALUES[south.indx]
+		COUNTRY.VALUES[east.indx]
 )
 
 COUNTRY.SHORTNAMES.ORDERED <- c(
-		COUNTRY.SHORTNAMES[north.indx],
 		COUNTRY.SHORTNAMES[west.indx], 
 		COUNTRY.SHORTNAMES[center.indx],
-		COUNTRY.SHORTNAMES[s.east.indx],
-		COUNTRY.SHORTNAMES[south.indx]
+		COUNTRY.SHORTNAMES[east.indx]
 )
 
 CIRCOS_REGION_COLORS <- c()
-CIRCOS_REGION_COLORS["Northern"] <- "198,0,0"
 CIRCOS_REGION_COLORS["Western"] <- "115,204,32"
 CIRCOS_REGION_COLORS["Central"] <- "252,138,138"
-CIRCOS_REGION_COLORS["Southeastern"] <- "255,181,53"
-CIRCOS_REGION_COLORS["Southern"] <- "127,146,255"
+CIRCOS_REGION_COLORS["Eastern"] <- "255,181,53"
+
 
 # colors traditionally associated to the EU countries
 CIRCOS_COUNTRY_COLORS <- c()
@@ -132,17 +127,17 @@ for(country in CIRCOS_COUNTRIES_ORDERED){
 
 # colors traditionally associated to the political groups
 CIRCOS_POL_GROUP_COLORS <- c()
-CIRCOS_POL_GROUP_COLORS[GROUP.GUENGL] <- "198,0,0"
-CIRCOS_POL_GROUP_COLORS[GROUP.GREENS] <- "115,204,32"
-CIRCOS_POL_GROUP_COLORS[GROUP.SD] <- "252,138,138"
-CIRCOS_POL_GROUP_COLORS[GROUP.ALDE] <- "255,181,53"
-CIRCOS_POL_GROUP_COLORS[GROUP.EPP] <- "127,146,255"
-CIRCOS_POL_GROUP_COLORS[GROUP.ECR] <- "46,72,221"
-CIRCOS_POL_GROUP_COLORS[GROUP.EFD] <- "104,39,216"
-CIRCOS_POL_GROUP_COLORS[GROUP.NI] <- "119,65,29"
+CIRCOS_POL_GROUP_COLORS[GROUP.SMER] <- "196,18,47"
+CIRCOS_POL_GROUP_COLORS[GROUP.SNS] <- "37,58,121"
+CIRCOS_POL_GROUP_COLORS[GROUP.SIET] <- "86,146,193"
+CIRCOS_POL_GROUP_COLORS[GROUP.OLANO] <- "190,200,0"
+CIRCOS_POL_GROUP_COLORS[GROUP.MOST] <- "238,125,12"
+CIRCOS_POL_GROUP_COLORS[GROUP.SAS] <- "180,200,0"
+CIRCOS_POL_GROUP_COLORS[GROUP.LSNS] <- "0,82,34"
+CIRCOS_POL_GROUP_COLORS[GROUP.SMERODINA] <- "14,64,146"
 
 # groups in political order, from far-left to far-right
-CIRCOS_POL_GROUPS_ORDERED <- c(GROUP.GUENGL, GROUP.GREENS, GROUP.SD, GROUP.ALDE, GROUP.EPP, GROUP.ECR, GROUP.EFD, GROUP.NI)
+CIRCOS_POL_GROUPS_ORDERED <- c(GROUP.SMER, GROUP.SAS, GROUP.OLANO, GROUP.SNS, GROUP.LSNS, GROUP.SMERODINA, GROUP.MOST, GROUP.SIET)
 #CIRCOS_POL_GROUPS_ORDERED = c(GROUP.VALUES)
 #GROUP.VALUES
 #GROUP.FULLNAMES

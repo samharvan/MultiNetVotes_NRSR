@@ -44,7 +44,7 @@ for(value in COMDET.ALGO.VALUES) COMDET.ALGO.NAMES[comdet.algo.ncg.value(value)]
 
 
 # =================================
-EXE.DIR = "lib/ExCC"
+EXE.DIR = "/home/samuel/MultiNetVotes/lib/ExCC"
 CORCLST.ALGO.ExCC <- "ExCC"
 ExCC.RESULT.FILENAME = "ExCC-result.txt" # Dont change that
 ExCC.JAR.PATH = paste(EXE.DIR,"cplex-partition.jar",sep="/") # gaia cluster - CERI
@@ -73,7 +73,7 @@ get.ExCC.command <- function(input.folder, out.folder)
 {
 	
 	input.file = paste("'", input.folder, "/", SIGNED.FILE, ".G", "'", sep="")
-#	output.file = paste("'", out.folder, "/", ExCC.RESULT.FILENAME, "'", sep="")
+	#output.file = paste("'", out.folder, "/", ExCC.RESULT.FILENAME, "'", sep="")
 	
 	# An example:
 	# java -Djava.library.path=/users/narinik/Cplex/ILOG/CPLEX_Studio128/cplex/bin/x86-64_linux/
@@ -85,12 +85,12 @@ get.ExCC.command <- function(input.folder, out.folder)
 				paste("-Djava.library.path=", CPLEX.BIN.PATH, sep=""),
 				paste0("-DinFile=", input.file),
 				paste0("-DoutDir='", out.folder, "'"),
-#				"-Dcp=false",
-#				"-DenumAll=false",
-#				"-Dtilim=-1",
-#				"-DlazyInBB=false",
-#				"-DuserCutInBB=false",
-#				"-DMaxTimeForRelaxationImprovement=-1",
+				"-Dcp=false",
+				"-DenumAll=false",
+				"-Dtilim=-1",
+   			"-DlazyInBB=false",
+				"-DuserCutInBB=false",
+				"-DMaxTimeForRelaxationImprovement=-1",
 				"-jar",
 				ExCC.JAR.PATH,
 				sep=" "

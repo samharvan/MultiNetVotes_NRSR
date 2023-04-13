@@ -17,18 +17,18 @@ source("src/partition-networks/detect-clusters.R")
 # 25/07/1989:11/05/1994::20/07/1999:30/06/2014
 #############################################################################################
 find.unavailable.meps.by.rollcall.id = function(rollcall.id, rollcall.details, mep.details){
-	rollcall.date = as.Date(rollcall.details[rollcall.id,COL.DATE],"%d/%m/%Y")
+	rollcall.date = as.Date(rollcall.details[rollcall.id,COL.DATE],"%Y-%m-%d")
 	# tlog("rollcall.date:", as.character(rollcall.date))
 	mep.indx.list = c()
 	for(i in seq(1, length(mep.details[, COL.PERIODS]))){
 		# "01/05/2017" is chosen arbitrary, which is more recent than 2014 (last period)
-		date.list = gsub("NA", "01/05/2017", as.character(mep.details[i, COL.PERIODS])) 
+		date.list = gsub("NA", "2023-05-01", as.character(mep.details[i, COL.PERIODS])) 
 		s.date.interval.list = unlist(strsplit(x=date.list, split="::"))
 		
 		mep.availability.check.list = sapply(s.date.interval.list,
 				function(s.date.interval){
 					s.date.list = unlist(strsplit(x=s.date.interval, split=":"))
-					date.list = as.Date(s.date.list, format="%d/%m/%Y")
+					date.list = as.Date(s.date.list, format="%Y-%m-%d")
 					beg.period.mep = date.list[1]
 					end.period.mep = date.list[2]
 					

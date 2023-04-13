@@ -43,7 +43,7 @@ ep.retrieve.fulltitle <- function(title)
 		if(!is.na(idx))
 			title <- substr(title,idx,nchar(title))
 	}
-	prefix <- substr(title,1,2)
+	prefix <- NA
 	tlog("....prefix='",prefix,"'")
 	# known Europarl ID
 	if(prefix %in% c("A7","B7","RC"))
@@ -150,7 +150,7 @@ ep.retrieve.fulltitle <- function(title)
 # periods: string representing a list of temporal period, using the above format.
 # date: date of interest (a date object, not a string)
 #
-# returns: TRUE iff the date belongs to at list one period.
+# returns: TRUE if the date belongs to at list one period.
 #############################################################################################
 iyp.check.date <- function(periods, date)
 {	# possible convert the date parameter to an actual date object
@@ -233,7 +233,7 @@ iyp.extract.mep.details <- function(mep.id)
 	# state
 	state <- str_trim(xml[[IYP.ELT.COUNTRY]])
 	if(!is.na(state) & state=="")
-		state <- NA
+	  state <- NA
 	result[COL.STATE] <- state
 	
 	# european political group
@@ -269,7 +269,7 @@ iyp.extract.mep.details <- function(mep.id)
 	# official MEP ID in the european parliament
 	ep.id <- str_trim(xml[[IYP.ELT.EP_ID]])
 	if(!is.na(ep.id) & ep.id=="")
-		ep.id <- NA
+	  ep.id <- NA
 	result[COL.EP.ID] <- ep.id
 	
 	return(result)
@@ -308,14 +308,12 @@ iyp.extract.meps.details <- function(duplicate.meps)
 			mep.ids <- c(mep.ids,substr(file,1,str_locate(file,".xml")-1))
 		mep.ids <- sort(as.integer(mep.ids))
 		
-		duplicate.meps <- cbind(duplicate.meps, rep(NA,nrow(duplicate.meps)))
-		
 		# build the matrix
 		cols <- c(COL.MEPID, COL.LASTNAME, COL.FIRSTNAME,
 			COL.FULLNAME, COL.STATE, COL.GROUP, COL.TITLE,
 			COL.PARTY, COL.BIRTHDATE, COL.BIRTHPLACE, COL.EP.ID,
 			IYP.ELT.MEPID, COL.PERIODS)
-		result <- matrix(NA,nrow=length(mep.ids)-nrow(duplicate.meps),ncol=length(cols))
+		result <- matrix(NA,nrow=length(mep.ids),ncol=length(cols))
 		colnames(result) <- cols
 		idx <- 1
 		tlog("!!!!!!!!!!! Extracting MEP details from XML files !!!!!!!!!")
@@ -323,42 +321,15 @@ iyp.extract.meps.details <- function(duplicate.meps)
 		{	# get the MEP data
 			data <- iyp.extract.mep.details(mep.ids[i])
 			# if second occurrence of a duplicate
-			if(mep.ids[i] %in% duplicate.meps[,2])
-			{	r <- which(duplicate.meps[,2]==mep.ids[i])
-				tlog("Duplicate detected: ",mep.ids[i]," vs. ",duplicate.meps[r,1])
-				for(c in colnames(result))
-				{	if(is.na(result[duplicate.meps[r,3],c]))
-					{	if(is.na(data[c]))
-							tlog(c,": both fields are NA >> no change")
-						else
-						{	result[duplicate.meps[r,3],c] <- data[c]
-							tlog(c,": NA vs. ",data[c]," >> ",data[c])
-						}
-					}
-					else
-					{	if(is.na(data[c]))
-							tlog(c,": ",result[duplicate.meps[r,3],c]," vs. NA >> no change")
-						else
-							tlog(c,": ",result[duplicate.meps[r,3],c]," vs. ",data[c]," >> no change")
-					}
-				}
-			}
-			# otherwise
-			else
-			{	# if first occurrence of a duplicate
-				if(mep.ids[i] %in% duplicate.meps[,1])
-				{	r <- which(duplicate.meps[,1]==mep.ids[i])
-					duplicate.meps[r,3] <- idx
-				}
 				# and in any case
 				data[COL.MEPID] <- idx
 				result[idx,cols] <- data[cols]
 				idx <- idx + 1
 			}
-		}
+		
 
 		# retrieve the official list of MEPs activity periods
-		ep.table <- as.matrix(read.csv2(IYP.MEP.PERIODS.FILE,check.names=FALSE))
+		ep.table <- as.matrix(read.csv(IYP.MEP.PERIODS.FILE,check.names=FALSE))
 		ep.table[,COL.EP.ID] <- as.integer(ep.table[,COL.EP.ID])
 		Encoding(ep.table[,COL.FULLNAME]) <- "UTF-8"
 		ep.table[,COL.FULLNAME] <- toupper(ep.table[,COL.FULLNAME])
@@ -441,7 +412,7 @@ iyp.extract.domains <- function()
 	
 	# if the file already exists, just load it
 	if(file.exists(ROLLCALL.DOMAINS.FILE))
-	{	result <- as.matrix(read.csv2(ROLLCALL.DOMAINS.FILE,check.names=FALSE))
+	{	result <- as.matrix(read.csv(ROLLCALL.DOMAINS.FILE,check.names=FALSE))
 		result[,IYP.ELT.VOTEID] <- as.integer(result[,IYP.ELT.VOTEID])
 	}
 	
@@ -539,7 +510,7 @@ iyp.extract.vote <- function(vote.id, duplicate.meps)
 	# if title is not recognizable in terms of doc reference, it puts 'NA'
 	# sometimes it throws an unexpected exception: it can not connect to a URL
 	# Also, in order to go faster, you can comment this line
-	details[COL.RET.TITLE] = tryCatch(ep.retrieve.fulltitle(title), error=function(e) NA)
+	 details[COL.RET.TITLE] = tryCatch(ep.retrieve.fulltitle(title), error=function(e) NA)
 	# =================================================
 
 	
@@ -574,7 +545,8 @@ tlog("'",dom.id,"' >> ",dom.id)
 	date <- str_trim(xml[[IYP.ELT.VOTE.DATE]])	
 	if(!is.na(date) & date=="")
 		date <- NA
-	details[COL.DATE] <- format(as.Date(date,"%Y-%m-%d"),"%d/%m/%Y")
+	details[COL.DATE] <- date
+	  #format(as.Date(date,"%Y-%m-%d"),"%d/%m/%Y")
 	
 	# extract vote values
 	votes <- c()
@@ -582,25 +554,7 @@ tlog("'",dom.id,"' >> ",dom.id)
 	{	v <- xml[[IYP.ELT.VOTES]][[i]]
 		mep.id <- str_trim(v[[IYP.ELT.MEPID]])
 		vote.value <- VOTE.IYP2SYMB[str_trim(v[[IYP.ELT.MEP.VOTE]])]
-		r <- which(duplicate.meps[,2]==as.integer(mep.id))
-		# not a duplicate MEP, or first occurrence of a duplicate
-		if(length(r)==0)
-			votes[as.character(mep.id)] <- vote.value
-		# second occurrence of a duplicate MEP
-		else
-		{	if(!is.na(vote.value))
-			{	fst <- as.character(duplicate.meps[r,1])
-				if(length(votes[fst])==0)
-					votes[fst] <- vote.value
-				else if(is.na(votes[fst]))
-					votes[fst] <- vote.value
-				else
-				{	tlog("Problem: conflicting votes when merging duplicate MEPs (",fst,"vs. ",mep.id,"): ",votes[fst]," vs. ",vote.value)
-					votes[fst] <- vote.value
-				}
-			}
-			
-		}
+		votes[as.character(mep.id)] <- vote.value
 	}
 	
 	# process vote total result
@@ -635,20 +589,7 @@ iyp.extract.votes <- function(rollcall.domains, mep.details, duplicate.meps)
 	result <- list()
 	
 	# check if the files already exist, load everything
-	if(file.exists(ALL.VOTES.FILE) & file.exists(ROLCALL.DETAILS.FILE))
-	{	# vote values
-		temp <- as.matrix(read.csv2(ALL.VOTES.FILE,check.names=FALSE))
-		temp[,COL.MEPID] <- as.integer(temp[,COL.MEPID])
-		result$all.votes <- temp
-		# document details
-		temp <- as.matrix(read.csv2(ROLCALL.DETAILS.FILE,check.names=FALSE))
-		temp[,COL.ROLLCALL.ID] <- as.integer(temp[,COL.ROLLCALL.ID])
-		result$rollcall.details <- temp
-	}
-	
-	# otherwise, process everything
-	else
-	{	# retrieve the list of vote ids
+		# retrieve the list of vote ids
 		files <- list.files(path=IYP.VOTES.FOLDER, full.names=FALSE, no..=TRUE)
 		vote.ids <- c()
 		for(file in files)
@@ -656,11 +597,11 @@ iyp.extract.votes <- function(rollcall.domains, mep.details, duplicate.meps)
 		vote.ids <- sort(as.integer(vote.ids))
 		
 		# complete the list of rollcall domains (some docs were missing)
-		rollcall.domains0 <- rollcall.domains
-		rollcall.domains <- cbind(vote.ids,DOMAIN.AUTR)
-		colnames(rollcall.domains) <- c(IYP.ELT.VOTEID, COL.DOMID)
-		idx <- match(rollcall.domains0[,IYP.ELT.VOTEID],vote.ids)
-		rollcall.domains[idx,] <- rollcall.domains0
+		#rollcall.domains0 <- rollcall.domains
+		#rollcall.domains <- cbind(vote.ids,DOMAIN.AUTR)
+		#colnames(rollcall.domains) <- c(IYP.ELT.VOTEID, COL.DOMID)
+		#idx <- match(rollcall.domains0[,IYP.ELT.VOTEID],vote.ids)
+		#rollcall.domains[idx,] <- rollcall.domains0
 #		print(rollcall.domains)
 		
 		# build details matrix
@@ -681,9 +622,9 @@ iyp.extract.votes <- function(rollcall.domains, mep.details, duplicate.meps)
 		{	tlog("....Processing vote ",vote.ids[i]," (",i,"/",length(vote.ids),")")
 			
 			temp <- iyp.extract.vote(vote.ids[i], duplicate.meps)
-#			print(temp)			
+  	#print(temp)			
 			# update details matrix
-			temp$details[COL.ROLLCALL.ID] <- i
+#			temp$details[COL.ROLLCALL.ID] <- i
 #			print(temp$details)			
 #			print(temp$details[COL.DOMID])
 #			print(rollcall.domains[i,COL.DOMID])
@@ -700,6 +641,7 @@ iyp.extract.votes <- function(rollcall.domains, mep.details, duplicate.meps)
 			else if(is.na(temp$details[COL.DOMID]))
 				tlog("....WARNING: both domains in vote and domain table are missing")
 			details.mat[i,details.cols] <- temp$details[details.cols]
+			details.mat[i,COL.ROLLCALL.ID] <- as.integer(i) 
 			
 			# update vote matrix
 			idx <- match(as.integer(names(temp$votes)), mep.details[,IYP.ELT.MEPID])
@@ -720,7 +662,7 @@ iyp.extract.votes <- function(rollcall.domains, mep.details, duplicate.meps)
 		colnames(votes.mat)[1] <- COL.MEPID
 		write.csv2(votes.mat,file=ALL.VOTES.FILE,row.names=FALSE)
 		result$all.votes <- votes.mat
-	}
+	
 	
 	#print(sort(unique(c(result$all.votes))))	
 	return(result)

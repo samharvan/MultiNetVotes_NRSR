@@ -96,14 +96,14 @@ VOTE.VW2SYMB["Documented Absence"] <- VOTE.DOCABSENT
 # Group mapping
 #############################################################################################
 GROUP.VW2SYMB <- c()
-GROUP.VW2SYMB["ALDE/ADLE"] <- GROUP.ALDE
-GROUP.VW2SYMB["ECR"] <- GROUP.ECR
-GROUP.VW2SYMB["EFD"] <- GROUP.EFD
-GROUP.VW2SYMB["EPP"] <- GROUP.EPP
-GROUP.VW2SYMB["Greens/EFA"] <- GROUP.GREENS
-GROUP.VW2SYMB["GUE-NGL"] <- GROUP.GUENGL
-GROUP.VW2SYMB["NI"] <- GROUP.NI
-GROUP.VW2SYMB["S&D"] <- GROUP.SD
+GROUP.VW2SYMB["SMER – sociálna demokracia"] <- GROUP.SMER
+GROUP.VW2SYMB["Slovenská národná strana"] <- GROUP.SNS
+GROUP.VW2SYMB["#SIEŤ"] <- GROUP.SIET
+GROUP.VW2SYMB["OBYČAJNÍ ĽUDIA a nezávislé osobnosti (OĽANO-NOVA)"] <- GROUP.OLANO
+GROUP.VW2SYMB["MOST-HÍD"] <- GROUP.MOST
+GROUP.VW2SYMB["Sloboda a Solidarita"] <- GROUP.SAS
+GROUP.VW2SYMB["Kotleba - Ľudová strana Naše Slovensko"] <- GROUP.LSNS
+GROUP.VW2SYMB["SME RODINA - Boris Kollár"] <- GROUP.SMERODINA
 
 
 #############################################################################################

@@ -27,21 +27,21 @@ source("src/define-constants.R")
 #
 # returns: a vector of roll-call ids, corresponding to the roll-call matching the dates.
 #############################################################################################
-filter.rollcalls.by.date <- function(rollcall.details, start.date=NA, end.date=NA)
+filter.rollcalls.by.date <- function(rollcall.details, start.date, end.date)
 {	# possibly set extreme dates
 	if(is.na(start.date))
-		start.date <- "01/01/1900"
+		start.date <- "1900-01-01"
 	if(is.na(end.date))
-		end.date <- "31/12/3000"
+		end.date <- "3000-12-31"
 	
 	# possibly convert the start/end dates
 	if(class(start.date)!="Date")
-		start.date <- as.Date(start.date,"%d/%m/%Y")
+		start.date <- as.Date(start.date,"%Y-%m-%d")
 	if(class(end.date)!="Date")
-		end.date <- as.Date(end.date,"%d/%m/%Y")
+		end.date <- as.Date(end.date,"%Y-%m-%d")
 	
 	# retrieve and convert the date strings
-	dates <- as.Date(rollcall.details[,COL.DATE],"%d/%m/%Y")
+	dates <- as.Date(rollcall.details[,COL.DATE],"%Y-%m-%d")
 	
 	# retain only the dates located between start and end (included)
 	idx <- which(dates>=start.date & dates<=end.date)
@@ -61,15 +61,20 @@ filter.rollcalls.by.date <- function(rollcall.details, start.date=NA, end.date=N
 #
 # returns: a vector of roll-call ids, corresponding to the roll-call matching the domains.
 #############################################################################################
-filter.rollcalls.by.domain <- function(rollcall.details, domains=c())
+filter.rollcalls.by.domain <- function(rollcall.details, domains)
 {	# possibly add all domains
+  print(paste("domains=", domains))
 	if(length(domains)==1 && is.na(domains))
 		domains <- c()
 	if(length(domains)==0)
-		domains <- DOMAIN.VALUES
+		domains <- DOMAIN.ALL
+	
 	
 	# retrieve the roll-call domains
 	doms <- rollcall.details[,COL.DOMID]
+	print(paste("domains=", domains))
+	print(paste("doms=", doms))
+	
 	
 	# retain only the domains matching one of those specified in the parameter vector
 	idx <- match(doms,domains)
@@ -99,8 +104,12 @@ filter.rollcalls.by.domain <- function(rollcall.details, domains=c())
 filter.rollcalls.by.date.and.domain <- function(rollcall.details, start.date, end.date, domains)
 {	# filter by date
 	ids1 <- filter.rollcalls.by.date(rollcall.details, start.date, end.date)
+	print(paste("ids1=", ids1))
 	# filter by domain
 	ids2 <- filter.rollcalls.by.domain(rollcall.details, domains)
+	print(paste("ids2=", ids2))
+	print(paste("startdate=", start.date))
+	print(paste("enddate=", end.date))
 	
 	# keep only the roll-calls appearing in both vectors
 	result <- intersect(ids1,ids2)
