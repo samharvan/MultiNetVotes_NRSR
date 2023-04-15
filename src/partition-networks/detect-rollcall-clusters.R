@@ -102,7 +102,7 @@ partition.partitioning.rollcall.networks <- function(all.votes, rollcall.details
 			
 			rollcall.network.folder = get.rollcall.networks.path(score=score.file, country, group, domain=dom)
 			rollcall.network.folder <- paste0(rollcall.network.folder,"/",DATE.STR.T7[date])
-			print(rollcall.network.folder)
+      print(rollcall.network.folder)
 			
 			
 			# retain only the roll-calls related to the selected topic and dates

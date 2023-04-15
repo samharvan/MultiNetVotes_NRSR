@@ -29,7 +29,7 @@ create.intersection.based.similarity.matrix = function(partitions, measure){
 				val <- compare.partition.pair2(partition1, partition2, measure)
 				# 'val' is a list. In this case, we need to retreive only the 1st item
 				sim.mtrx[i,j]=val[1]
-				sim.mtrx[j,i]=val[1] # symetry
+				sim.mtrx[j,i]=val[1]# symetry
 			}
 		}
 	}

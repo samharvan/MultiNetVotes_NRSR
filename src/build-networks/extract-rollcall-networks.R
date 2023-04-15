@@ -206,7 +206,6 @@ extract.all.rollcall.networks <- function(all.votes, rollcall.details, mep.detai
 		
 		# select data
 		filtered.mep.ids <- filter.meps.by.group(mep.details,group)
-		print(filtered.mep.ids)
 		idx <- match(filtered.mep.ids,all.votes[,COL.MEPID])
 		group.votes <- all.votes[idx,]
 		mep.details2 <- mep.details[idx,]
