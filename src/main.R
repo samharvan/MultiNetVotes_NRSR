@@ -72,9 +72,9 @@ countries <- c(COUNTRY.BA)
 
 ##################### groups
 #groups <- GROUP.VALUES
-#groups <- c()
+#groups <- c(GROUP.SMER)
 # which group to process individually
-groups <- c(GROUP.SMER, GROUP.SNS, GROUP.SIET, GROUP.OLANO, GROUP.MOST, GROUP.SAS, GROUP.LSNS, GROUP.SMERODINA)
+#groups <- c(GROUP.SMER, GROUP.SNS, GROUP.SIET, GROUP.OLANO, GROUP.MOST, GROUP.SAS, GROUP.LSNS, GROUP.SMERODINA)
 #groups <- GROUP.VW2SYMB[TEST.GROUPS]
 #groups <- c(
 #	GROUP.ALDE,GROUP.ECR,GROUP.EFD,GROUP.EPP
