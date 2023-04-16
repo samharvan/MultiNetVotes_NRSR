@@ -275,6 +275,7 @@ perform.clustering = function(sim.mtrx, clu.algo.name=KMEDOIDS){
 	
 	res = list()
 	mtrx.size = nrow(sim.mtrx)
+	sim.mtrx[is.na(sim.mtrx)] <- 0
 	diss.mtrx = 1-sim.mtrx
 	avg.sil.list = c()
 	partitions = list()

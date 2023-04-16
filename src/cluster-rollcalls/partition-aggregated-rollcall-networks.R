@@ -239,8 +239,8 @@ partition.aggregated.rollcall.networks <- function(score.file, corclst.algos, co
 		plot.formats, measures, cons.vote.types, epsilon, k.limits, aggrega.graph.type, absence.thresholds)
 {	# consider each domain individually (including all domains at once)
 		
-	for(dom in domains)
-#	foreach(dom=domains) %dopar%
+#	for(dom in domains)
+	foreach(dom=domains) %dopar%
 	{	#source("src/define-imports.R")
 		
 		# consider each time period (each individual year as well as the whole term)

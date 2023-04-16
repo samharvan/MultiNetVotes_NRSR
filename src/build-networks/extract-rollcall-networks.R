@@ -116,8 +116,8 @@ extract.rollcall.networks <- function(all.votes, rollcall.details, mep.details, 
 	for(dom in domains){
 		
 		# consider each time period (each individual year as well as the whole term)
-		for(date in dates)
-		#foreach(date=dates[1:length(dates)-1]) %dopar% # no need for the 'Term' period
+		#for(date in dates)
+		foreach(date=dates[1:length(dates)-1]) %dopar% # no need for the 'Term' period
 		#date <- DATE.T7.TERM
 		{	source("src/define-imports.R")
 			tlog("......Processing agreement data for domain ",dom," and period ",DATE.STR.T7[date])

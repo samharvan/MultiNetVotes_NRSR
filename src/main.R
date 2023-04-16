@@ -21,8 +21,8 @@
 # source("src/main.R")
 #############################################################################################
 # libraries for parallel processing
-#library(foreach)
-#library(doParallel)
+library(foreach)
+library(doParallel)
 
 source("src/define-imports.R")
 
@@ -61,11 +61,11 @@ dates <- c(DATE.T7.Y4)
 #)
 #dates <- TEST.YEARS
 ##################### everything at once
-everything <- TRUE								# whether or not to process all data without distinction of country or date
-#everything <- FALSE
+#everything <- TRUE								# whether or not to process all data without distinction of country or date
+everything <- FALSE
 ##################### countries
-countries <- COUNTRY.VALUES						# which country to process individually
-#countries <- c(COUNTRY.FR)
+#countries <- COUNTRY.VALUES						# which country to process individually
+countries <- c(COUNTRY.BA)
 #countries <- c()
 #countries <- c(COUNTRY.FR, COUNTRY.IT, COUNTRY.UK)
 #countries <- TEST.COUNTRIES
@@ -74,7 +74,7 @@ countries <- COUNTRY.VALUES						# which country to process individually
 #groups <- GROUP.VALUES
 #groups <- c()
 # which group to process individually
-groups <- c(GROUP.SMER)
+groups <- c(GROUP.SMER, GROUP.SNS, GROUP.SIET, GROUP.OLANO, GROUP.MOST, GROUP.SAS, GROUP.LSNS, GROUP.SMERODINA)
 #groups <- GROUP.VW2SYMB[TEST.GROUPS]
 #groups <- c(
 #	GROUP.ALDE,GROUP.ECR,GROUP.EFD,GROUP.EPP
@@ -85,24 +85,22 @@ groups <- c(GROUP.SMER)
 score.file <- "m3"					# see folder in/score
 #thresh <- c(0,0)					# no thresholding at all
 #thresh <- c(-0.34,+0.34)			# thresholds applied to agreement index values during network extraction (use c(0,0) for no filtering)
-#thresh <- NA						# both thresholds automatically estimated (through k-means)
+thresh <- NA						# both thresholds automatically estimated (through k-means)
 
 
 ##################### formats of the generated plot (NA for screen -- mainly for debug)
-#plot.formats <- c(
-#		"svg" 
+plot.formats <- c(
+		"svg" 
 #	"jpg"
 #	NA
-#)
+)
 
 ##################### configure parallel processing
-#cn <- detectCores(all.tests=TRUE)
-#if(!is.na(cn))
-#	cl <- makeCluster(cn)		# automatically use all the available processors
-#else
-
-#cl <- makeCluster(5)		# manually set the number of processors to use
-#registerDoParallel(cl)
+cn <- detectCores(all.tests=TRUE)
+if(!is.na(cn))
+	cl <- makeCluster(cn)		# automatically use all the available processors
+# manually set the number of processors to use
+registerDoParallel(cl)
 
 
 #############################################################################################
@@ -146,8 +144,8 @@ K.FOCUS.LIMITS = c(4,4)
 
 # another way of choosing a subset of k values is to specify an epsilon value.
 # Note that K.FOCUS.LIMITS and EPSILON are not mutual exclusive, the intersected k values are used.
-EPSILON = NA # take all silhouette scores
-#EPSILON = 0.10
+#EPSILON = NA # take all silhouette scores
+EPSILON = 0.10
 #EPSILON = 0 # retreive only the best silhouette score and the associated partition
 # ========================================================================================
 
@@ -176,7 +174,7 @@ comdet.algos=c(
 #		COMDET.ALGO.INFOMAP
 #		COMDET.ALGO.LABELPROP
 #		COMDET.ALGO.LOUVAIN
-#		COMDET.ALGO.WALKTRAP
+		COMDET.ALGO.WALKTRAP
 )
 # ==========================================================================================
 
@@ -273,7 +271,7 @@ for(i in 1:length(cons.vote.types.list)){
 
 
 ##################### stop parallel processing
-#stopCluster(cl)
+stopCluster(cl)
 
 
 tlog("Done!")

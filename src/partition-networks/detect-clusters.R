@@ -380,8 +380,8 @@ perform.partitioning <- function(thresh, score.file, domain, date, country, grou
 #############################################################################################
 partition.graphs <- function(thresh=NA, score.file, domains, dates, country, group, comdet.algos, corclu.algos, repetitions, plot.formats, force=TRUE)
 {	# consider each domain individually (including all domains at once)
-	for(dom in domains)
-#	foreach(dom=domains) %dopar%
+#	for(dom in domains)
+	foreach(dom=domains) %dopar%
 	{	source("src/define-imports.R")
 		
 		# consider each time period (each individual year as well as the whole term)
