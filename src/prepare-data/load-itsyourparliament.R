@@ -234,7 +234,7 @@ iyp.extract.mep.details <- function(mep.id)
 	state <- str_trim(xml[[IYP.ELT.COUNTRY]])
 	if(!is.na(state) & state=="")
 	  state <- NA
-	result[COL.STATE] <- state
+	result[COL.STATE] <- COUNTRY.SK
 	
 	# european political group
 	group <- GROUP.IYP2SYMB[str_trim(xml[[IYP.ELT.GROUP]])]

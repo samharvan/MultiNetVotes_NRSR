@@ -384,8 +384,8 @@ evaluate.comdet.method <- function(graphs, part.folder, algo.name, perf.table, p
 #############################################################################################
 evaluate.partitions <- function(thresh=NA, score.file, domains, dates, country, group, comdet.algos, corclu.algos, repetitions, plot.formats)
 {	# consider each domain individually (including all domains at once)
-#	for(dom in domains)
-	foreach(dom=domains) %dopar%
+	for(dom in domains)
+#	foreach(dom=domains) %dopar%
 	{	source("src/define-imports.R")
 		
 		#dom.folder <- paste0(subfolder,"/",score.file,"/",
