@@ -1,5 +1,6 @@
 
-# source("src/define-constants.R")
+source("src/define-constants.R")
+source("src/define-functions.R")
 source("src/build-networks/process-agreement.R")
 source("src/build-networks/extract-networks.R")
 
@@ -173,7 +174,7 @@ aggregate.rollcall.networks.by.cluster <- function(all.votes, rollcall.details, 
 {	
 	
 	for(dom in domains)
-	{	#source("src/define-imports.R")
+	{	source("src/define-imports.R")
 		
 		# init
 		partitions.term = list()
@@ -240,31 +241,36 @@ aggregate.rollcall.networks.by.cluster <- function(all.votes, rollcall.details, 
 									score.file, cons.vote.types.desc, sil.val, k.val, measure, country, group, dom, DATE.STR.T7[date])
 							mem.file <- file.path(folder.sil.path, paste0(clu.algo.name,"-membership.txt"))
 							
-							
-							mbrshp = read.table(file=mem.file)$V1
-							file.desc = prepare.descs.for.silhouette.partitions(measure,cons.vote.types.desc,sil.val, k.val)
-							
-							
-							# ===========================
-							if(is.na(country))
-								if(is.na(group))
-									mode.str <- ""
-								else
-									mode.str <- paste0(" - group=",group)
-							else
-								mode.str <- paste0(" - country=",country)
-							base.graph.name <- paste0("MEP agreement - score=",score.file,mode.str)
-							graph.name <- paste0(base.graph.name," - domain=",dom," - period=",DATE.STR.T7[date],"\n",file.desc)
-							# ===========================
-	
-							folder.clu.path = get.rollcall.clustering.vote.type.silhouette.val.path(
-									score.file, cons.vote.types.desc, sil.val, k.val, measure, country, group, dom, DATE.STR.T7[date])
-	
-							ROLLCALL.CLU.TRESH = c(0,0) # do not apply filtering when extracting network
-							# ROLLCALL.CLU.TRESH = c(NA,NA) # apply filtering when extracting network
-							aggregate.rollcall.networks(folder.clu.path, votes, rollcall.details, mep.details2, mbrshp, as.integer(filtered.rollcall.ids),
-									paste0(aggrega.graph.type,"-",cons.vote.types.desc), ROLLCALL.CLU.TRESH, dom, graph.name, plot.formats, absence.thresholds)
-							
+							# Check if the file exists
+							if (!file.exists(mem.file)) {
+							  next
+							} else {
+							  # Do something if the file does not exist
+							  mbrshp = read.table(file=mem.file)$V1
+							  file.desc = prepare.descs.for.silhouette.partitions(measure,cons.vote.types.desc,sil.val, k.val)
+							  
+							  
+							  # ===========================
+							  if(is.na(country))
+							    if(is.na(group))
+							      mode.str <- ""
+							    else
+							      mode.str <- paste0(" - group=",group)
+							  else
+							    mode.str <- paste0(" - country=",country)
+							  base.graph.name <- paste0("MEP agreement - score=",score.file,mode.str)
+							  graph.name <- paste0(base.graph.name," - domain=",dom," - period=",DATE.STR.T7[date],"\n",file.desc)
+							  # ===========================
+							  
+							  folder.clu.path = get.rollcall.clustering.vote.type.silhouette.val.path(
+							    score.file, cons.vote.types.desc, sil.val, k.val, measure, country, group, dom, DATE.STR.T7[date])
+							  
+							  ROLLCALL.CLU.TRESH = c(0,0) # do not apply filtering when extracting network
+							  # ROLLCALL.CLU.TRESH = c(NA,NA) # apply filtering when extracting network
+							  aggregate.rollcall.networks(folder.clu.path, votes, rollcall.details, mep.details2, mbrshp, as.integer(filtered.rollcall.ids),
+							                              paste0(aggrega.graph.type,"-",cons.vote.types.desc), ROLLCALL.CLU.TRESH, dom, graph.name, plot.formats, absence.thresholds)
+							  
+							}
 						}
 						# =================================================================================================
 						

@@ -118,33 +118,39 @@ compare.aggregated.rollcall.network.clusters.by.measure.and.silhouatte.val <- fu
 			k.val = k.vals[i]
 			desc = descs[i]
 					
-			folder.clu.path = get.rollcall.clustering.vote.type.silhouette.val.path(
-					score.file, cons.vote.types.desc, sil.val, k.val, measure, country, group, dom, DATE.STR.T7[date])
-	
-			if(aggrega.graph.type == "signed"){
-				
-				for(algo.name in corclst.algos){
-					compare.aggregated.rollcall.network.by.cluster(folder.clu.path, paste0(algo.name,"-",SIGNED.FILE),
-							k.val, measure, desc, absence.thresholds)	
-				}
-				
-				for(algo.name in comdet.algos){
-					compare.aggregated.rollcall.network.by.cluster(folder.clu.path, paste0(algo.name,"-",SIGNED.FILE),
-							k.val, measure, desc, absence.thresholds)		
-				}
-				
-			} else if(aggrega.graph.type == "unsigned") {	
-				
-				for(algo.name in comdet.algos){
-					print(UNSIGNED.FILE)
-					compare.aggregated.rollcall.network.by.cluster(folder.clu.path, paste0(algo.name,"-",UNSIGNED.FILE), 
-							k.val, measure, desc, absence.thresholds)
-					
-					print(POSITIVE.FILE)
-					compare.aggregated.rollcall.network.by.cluster(folder.clu.path, paste0(algo.name,"-",POSITIVE.FILE), 
-							k.val, measure, desc, absence.thresholds)
-				}
+			if (is.na(length(k.vals[i]) == 0)){
+			  next
+			} 
+			else{
+			  folder.clu.path = get.rollcall.clustering.vote.type.silhouette.val.path(
+			    score.file, cons.vote.types.desc, sil.val, k.val, measure, country, group, dom, DATE.STR.T7[date])
+			  
+			  if(aggrega.graph.type == "signed"){
+			    
+			    for(algo.name in corclst.algos){
+			      compare.aggregated.rollcall.network.by.cluster(folder.clu.path, paste0(algo.name,"-",SIGNED.FILE),
+			                                                     k.val, measure, desc, absence.thresholds)	
+			    }
+			    
+			    for(algo.name in comdet.algos){
+			      compare.aggregated.rollcall.network.by.cluster(folder.clu.path, paste0(algo.name,"-",SIGNED.FILE),
+			                                                     k.val, measure, desc, absence.thresholds)		
+			    }
+			    
+			  } else if(aggrega.graph.type == "unsigned") {	
+			    
+			    for(algo.name in comdet.algos){
+			      print(UNSIGNED.FILE)
+			      compare.aggregated.rollcall.network.by.cluster(folder.clu.path, paste0(algo.name,"-",UNSIGNED.FILE), 
+			                                                     k.val, measure, desc, absence.thresholds)
+			      
+			      print(POSITIVE.FILE)
+			      compare.aggregated.rollcall.network.by.cluster(folder.clu.path, paste0(algo.name,"-",POSITIVE.FILE), 
+			                                                     k.val, measure, desc, absence.thresholds)
+			    }
+			  }
 			}
+
 
 			
 		}

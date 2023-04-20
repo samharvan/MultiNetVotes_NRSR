@@ -15,28 +15,31 @@
 #
 #############################################################################################
 create.intersection.based.similarity.matrix = function(partitions, measure){
-  
-  nb.partition = length(partitions)
-  sim.mtrx = diag(x = 1, nrow = nb.partition)
-  
-  for(i in 1:(nb.partition - 1)){ # row
-    partition1 = partitions[[i]]
-    sim.mtrx[i, (i+1):nb.partition] = 
-      vapply((i+1):nb.partition, function(j){
-        partition2 = partitions[[j]]
-        val <- compare.partition.pair2(partition1, partition2, measure)
-        val[1]
-      }, double(1))
-  }
-  
-  sim.mtrx = t(sim.mtrx) + sim.mtrx - diag(diag(sim.mtrx))
-  
-  if(!is.null(names(partitions))){
-    colnames(sim.mtrx) = names(partitions)
-    row.names(sim.mtrx) = names(partitions)
-  }
-  
-  return(sim.mtrx)
+	
+	nb.partition = length(partitions)
+	sim.mtrx = matrix(NA, nrow=nb.partition, ncol=nb.partition)
+	for(i in 1:nb.partition){ # row
+		sim.mtrx[i,i]=1
+		
+		for(j in 1:nb.partition){ # column
+			if(i<j){ # take the upper diagonal
+				partition1 = partitions[[i]]
+				partition2 = partitions[[j]]
+				
+				val <- compare.partition.pair2(partition1, partition2, measure)
+				# 'val' is a list. In this case, we need to retreive only the 1st item
+				sim.mtrx[i,j]=val[1]
+				sim.mtrx[j,i]=val[1]# symetry
+			}
+		}
+	}
+	
+	if(!is.null(names(partitions))){
+		colnames(sim.mtrx) = names(partitions)
+		row.names(sim.mtrx) = names(partitions)
+	}
+	
+	return(sim.mtrx)
 }
 
 
@@ -51,26 +54,32 @@ create.intersection.based.similarity.matrix = function(partitions, measure){
 # returns the similarity matrix
 #############################################################################################
 create.similarity.matrix = function(partitions, measure){
-  nb.partition = length(partitions)
-  sim.mtrx = matrix(NA, nrow=nb.partition, ncol=nb.partition)
-  for(i in 1:(nb.partition-1)){
-    partition1 = partitions[[i]]
-    for(j in (i+1):nb.partition){
-      partition2 = partitions[[j]]
-      val <- compare.partition.pair(partition1, partition2, measure)[[1]]
-      sim.mtrx[i,j]=val
-      sim.mtrx[j,i]=val # symmetry
-    }
-    sim.mtrx[i,i]=1
-  }
-  sim.mtrx[nb.partition,nb.partition] = 1
-  if(!is.null(names(partitions))){
-    colnames(sim.mtrx) = names(partitions)
-    row.names(sim.mtrx) = names(partitions)
-  }
-  return(sim.mtrx)
+	
+	nb.partition = length(partitions)
+	sim.mtrx = matrix(NA, nrow=nb.partition, ncol=nb.partition)
+	for(i in 1:nb.partition){ # row
+		sim.mtrx[i,i]=1
+		
+		for(j in 1:nb.partition){ # column
+			if(i<j){ # take the upper diagonal
+				partition1 = partitions[[i]]
+				partition2 = partitions[[j]]
+				
+				val <- compare.partition.pair(partition1, partition2, measure)
+				# 'val' is a list. In this case, we need to retreive only the 1st item
+				sim.mtrx[i,j]=val[1]
+				sim.mtrx[j,i]=val[1] # symetry
+			}
+		}
+	}
+	
+	if(!is.null(names(partitions))){
+		colnames(sim.mtrx) = names(partitions)
+		row.names(sim.mtrx) = names(partitions)
+	}
+		
+	return(sim.mtrx)
 }
-
 
 
 

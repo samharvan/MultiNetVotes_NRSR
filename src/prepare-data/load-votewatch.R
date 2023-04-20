@@ -96,14 +96,8 @@ VOTE.VW2SYMB["Documented Absence"] <- VOTE.DOCABSENT
 # Group mapping
 #############################################################################################
 GROUP.VW2SYMB <- c()
-GROUP.VW2SYMB["SMER – sociálna demokracia"] <- GROUP.SMER
-GROUP.VW2SYMB["Slovenská národná strana"] <- GROUP.SNS
-GROUP.VW2SYMB["#SIEŤ"] <- GROUP.SIET
-GROUP.VW2SYMB["OBYČAJNÍ ĽUDIA a nezávislé osobnosti (OĽANO-NOVA)"] <- GROUP.OLANO
-GROUP.VW2SYMB["MOST-HÍD"] <- GROUP.MOST
-GROUP.VW2SYMB["Sloboda a Solidarita"] <- GROUP.SAS
-GROUP.VW2SYMB["Kotleba - Ľudová strana Naše Slovensko"] <- GROUP.LSNS
-GROUP.VW2SYMB["SME RODINA - Boris Kollár"] <- GROUP.SMERODINA
+GROUP.VW2SYMB["Male"] <- GROUP.MALE
+GROUP.VW2SYMB["Female"] <- GROUP.FEMALE
 
 
 #############################################################################################

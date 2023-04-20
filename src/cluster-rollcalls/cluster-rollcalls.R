@@ -56,7 +56,8 @@ retreive.rollcall.titles.by.cluster = function(rollcall.details, filtered.rollca
 	nb.clu = length(unique(mbrshp))
 
 	res = c()
-	for(k in 1:nb.clu){
+	foreach(k = 1:nb.clu) %dopar% {
+	  source("src/define-imports.R")
 		indx = which(mbrshp == k)
 		curr.rollcall.ids = filtered.rollcall.ids[indx]
 		
@@ -96,8 +97,9 @@ process.purity = function(partitions, ground.truth, descs){
 	rownames(res) = descs
 	colnames(res) = "purity"
 	
-	for(i in 1:length(partitions)){
-		membrshp = partitions[[i]]
+	foreach(i = 1:length(partitions)) %dopar% {
+	  source("src/define-imports.R")
+	  membrshp = partitions[[i]]
 		val = compute.purity.for.partition.vs.multi.labeled.ground.truth (membrshp, ground.truth, purity.level="partition")
 		res[i,1]=val
 	}
@@ -124,8 +126,9 @@ process.purity.inv = function(partitions, ground.truth, descs){
 	rownames(res) = descs
 	colnames(res) = "purity.inv"
 	
-	for(i in 1:length(partitions)){
-		membrshp = partitions[[i]]
+	foreach(i = 1:length(partitions)) %dopar% {
+	  source("src/define-imports.R")
+	  membrshp = partitions[[i]]
 		val = compute.purity.for.multi.labeled.ground.truth.vs.partition (ground.truth, membrshp, purity.level="partition")
 		res[i,1]=val
 	}
@@ -282,8 +285,8 @@ perform.clustering = function(sim.mtrx, clu.algo.name=KMEDOIDS){
 	
 	# when we start to iterate from 1, we get the following error: Error in sil[, COL.SILH.WIDTH] : nombre de dimensions incorrect
 	avg.sil.list[1]=NA
-	for(k in 2:(mtrx.size-1)){ # 'k' must be in {1,2, .., n-1} for pam()
-		res=NA
+	for(k in 2:(mtrx.size-1)) { # 'k' must be in {1,2, .., n-1} for pam()
+	  res=NA
 		if(clu.algo.name == KMEDOIDS)
 			res = pam(diss.mtrx,k, diss=TRUE)
 #		else
@@ -459,7 +462,7 @@ cluster.rollcalls <- function(rollcall.details, score.file, domains, dates, coun
 {	
 	
 	for(dom in domains)
-	{	#source("src/define-imports.R")
+	{	source("src/define-imports.R")
 		
 		# init
 		partitions.term = list()
@@ -470,8 +473,6 @@ cluster.rollcalls <- function(rollcall.details, score.file, domains, dates, coun
 		list.first.letters = sapply(cons.vote.types, function(x) unlist(strsplit(x, split=""))[1])
 		# build the description string for the considered vote types
 		cons.vote.types.desc = paste(list.first.letters, collapse="")
-		
-		
 		
 		# consider each time period (each individual year as well as the whole term)
 		for(date in dates)
@@ -492,7 +493,6 @@ cluster.rollcalls <- function(rollcall.details, score.file, domains, dates, coun
 					domains=domval)
 			filtered.rollcall.ids = as.integer(filtered.rollcall.ids)
 						
-		
 			# init
 			partitions.date.dom = list()
 			nb.rollcall = length(filtered.rollcall.ids)
@@ -501,8 +501,9 @@ cluster.rollcalls <- function(rollcall.details, score.file, domains, dates, coun
 			if(nb.rollcall>1)
 			{	
 				# process each rollcall
-				for(i in 1:nb.rollcall)
-				{	tlog("..........Processing rollcall",i,"/",nb.rollcall)
+			  for(i in 1:nb.rollcall) {
+			    source("src/define-imports.R")
+			    tlog("..........Processing rollcall",i,"/",nb.rollcall)
 					
 					rollcall.id = as.character(filtered.rollcall.ids[i])
 					in.rollcall.folder <- paste0(par.folder,"/",rollcall.id)

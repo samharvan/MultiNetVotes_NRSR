@@ -46,33 +46,33 @@ domains <- c(DOMAIN.ALL)
 #domains <- c(DOMAIN.VW2SYMB[TEST.DOMAINS],DOMAIN.ALL)
 ##################### dates
 #dates <- c(DATE.T7.YEARS, DATE.T7.TERM)			# which time periods to process individually
-#DATE.T7.YEARS <- c(DATE.T7.Y1, DATE.T7.Y2, DATE.T7.Y3, DATE.T7.Y4, DATE.T7.Y5)
+#DATE.T7.YEARS <- c(DATE.T7.Y2, DATE.T7.Y3, DATE.T7.Y4, DATE.T7.Y5)
 #dates <- c(DATE.T7.TERM)
-dates <- c(DATE.T7.Y4)
+#dates <- c(DATE.T7.Y1)
 #DATE.T7.YEARS <- c(DATE.T7.Y2, DATE.T7.Y3, DATE.T7.Y5)
 #dates = c(DATE.T7.YEARS)
-#dates <- c(
+dates <- c(
 #		DATE.T7.Y1,
 #		DATE.T7.Y2,
 #		DATE.T7.Y3,
-#		DATE.T7.Y4,
+		DATE.T7.Y4
 #		DATE.T7.Y5,
 #		DATE.T7.TERM
-#)
+)
 #dates <- TEST.YEARS
 ##################### everything at once
 #everything <- TRUE								# whether or not to process all data without distinction of country or date
 everything <- FALSE
 ##################### countries
 #countries <- COUNTRY.VALUES						# which country to process individually
-countries <- c(COUNTRY.BA)
+countries <- c(COUNTRY.SK)
 #countries <- c()
 #countries <- c(COUNTRY.FR, COUNTRY.IT, COUNTRY.UK)
 #countries <- TEST.COUNTRIES
 
 ##################### groups
 #groups <- GROUP.VALUES
-#groups <- c(GROUP.SMER)
+groups <- c(GROUP.FEMALE)
 # which group to process individually
 #groups <- c(GROUP.SMER, GROUP.SNS, GROUP.SIET, GROUP.OLANO, GROUP.MOST, GROUP.SAS, GROUP.LSNS, GROUP.SMERODINA)
 #groups <- GROUP.VW2SYMB[TEST.GROUPS]
@@ -140,7 +140,7 @@ cons.vote.types.list = list(FAA=FAA)
 # It is applied for all possible values of 'k'. One drawback for this approach is that we use fixed thresholds.
 # When  Italy and France are treated at the same time, the same fixed threshold may not fit both countries.
 # On the other hand, small values of k should be enough for the EP data, since there is not many EP political groups.
-K.FOCUS.LIMITS = c(4,4)
+K.FOCUS.LIMITS = c(1,100)
 
 # another way of choosing a subset of k values is to specify an epsilon value.
 # Note that K.FOCUS.LIMITS and EPSILON are not mutual exclusive, the intersected k values are used.
@@ -172,9 +172,9 @@ corclst.algos=c(
 comdet.algos=c(
 #		COMDET.ALGO.EDGEBETW
 #		COMDET.ALGO.INFOMAP
-#		COMDET.ALGO.LABELPROP
+#   COMDET.ALGO.LABELPROP
 #		COMDET.ALGO.LOUVAIN
-		COMDET.ALGO.WALKTRAP
+#		COMDET.ALGO.WALKTRAP
 )
 # ==========================================================================================
 

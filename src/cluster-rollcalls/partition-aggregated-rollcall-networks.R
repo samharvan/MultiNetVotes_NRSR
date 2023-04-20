@@ -80,9 +80,14 @@ perform.partitioning.aggregated.rollcall.network = function(folder, aggrega.grap
 			
 			# if the created aggregated roll-call network is signed version
 			if(aggrega.graph.type == "signed"){
-				graph.file <- file.path(folder.clu.no.networks,paste0(SIGNED.FILE,".graphml"))	
-				g <- suppressWarnings(read.graph(file=graph.file, format="graphml"))
-				g$type = SIGNED.FILE
+				graph.file <- file.path(folder.clu.no.networks,paste0(SIGNED.FILE,".graphml"))
+				if (!file.exists(graph.file)) {
+				  next
+				} else {
+				  print(graph.file)
+				  g <- suppressWarnings(read.graph(file=graph.file, format="graphml"))
+				  g$type = SIGNED.FILE
+				}
 				
 				# apply selected signed graph partitioning algorithms designed for the Correlation Clustering problem
 				for(algo.name in corclst.algos){
@@ -112,8 +117,12 @@ perform.partitioning.aggregated.rollcall.network = function(folder, aggrega.grap
 				# ---
 				# positive part of the signed graph
 				graph.file <- file.path(folder.clu.no.networks,paste0(POSITIVE.FILE,".graphml"))
-				g <- suppressWarnings(read.graph(file=graph.file, format="graphml"))
-				g$type = POSITIVE.FILE
+				if (!file.exists(graph.file)) {
+				  next
+				} else {
+				  g <- suppressWarnings(read.graph(file=graph.file, format="graphml"))
+				  g$type = POSITIVE.FILE
+				}
 				
 				# apply selected unsigned graph partitioning algorithms designed for the Modularity (i.e. community detection)
 				for(algo.name in comdet.algos){
@@ -190,9 +199,13 @@ perform.partitioning.aggregated.rollcall.networks <- function(score.file, corcls
 			
 			folder.clu.path = get.rollcall.clustering.vote.type.silhouette.val.path(
 					score.file, cons.vote.types.desc, sil.val, k.val, measure, country, group, dom, DATE.STR.T7[date])
-	
-			perform.partitioning.aggregated.rollcall.network(folder.clu.path, aggrega.graph.type, corclst.algos, comdet.algos, 
+			
+			if (is.na(k.val[1])){
+			  next
+			} else{
+			  perform.partitioning.aggregated.rollcall.network(folder.clu.path, aggrega.graph.type, corclst.algos, comdet.algos, 
 					k.val, plot.formats, country, group, absence.thresholds)
+			}
 		}
 		
 	}
@@ -239,8 +252,8 @@ partition.aggregated.rollcall.networks <- function(score.file, corclst.algos, co
 		plot.formats, measures, cons.vote.types, epsilon, k.limits, aggrega.graph.type, absence.thresholds)
 {	# consider each domain individually (including all domains at once)
 		
-#	for(dom in domains)
-	foreach(dom=domains) %dopar%
+	for(dom in domains)
+#	foreach(dom=domains) %dopar%
 	{	#source("src/define-imports.R")
 		
 		# consider each time period (each individual year as well as the whole term)
