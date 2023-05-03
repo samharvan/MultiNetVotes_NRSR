@@ -14,32 +14,31 @@
 # returns the similarity matrix
 #
 #############################################################################################
-create.intersection.based.similarity.matrix = function(partitions, measure){
-	
-	nb.partition = length(partitions)
-	sim.mtrx = matrix(NA, nrow=nb.partition, ncol=nb.partition)
-	for(i in 1:nb.partition){ # row
-		sim.mtrx[i,i]=1
-		
-		for(j in 1:nb.partition){ # column
-			if(i<j){ # take the upper diagonal
-				partition1 = partitions[[i]]
-				partition2 = partitions[[j]]
-				
-				val <- compare.partition.pair2(partition1, partition2, measure)
-				# 'val' is a list. In this case, we need to retreive only the 1st item
-				sim.mtrx[i,j]=val[1]
-				sim.mtrx[j,i]=val[1]# symetry
-			}
-		}
-	}
-	
-	if(!is.null(names(partitions))){
-		colnames(sim.mtrx) = names(partitions)
-		row.names(sim.mtrx) = names(partitions)
-	}
-	
-	return(sim.mtrx)
+create.intersection.based.similarity.matrix = function(partitions, measure) {
+  tlog("blablaintrsection")
+  nb.partition = length(partitions)
+  sim.mtrx = matrix(NA, nrow = nb.partition, ncol = nb.partition)
+  
+  for(i in 1:(nb.partition - 1)) { # row
+    sim.mtrx[i, i] = 1
+    partition1 = partitions[[i]]
+    
+    for(j in (i + 1):nb.partition) { # column
+      partition2 = partitions[[j]]
+      val <- compare.partition.pair2(partition1, partition2, measure)
+      sim.mtrx[i, j] = val[1]
+      sim.mtrx[j, i] = val[1] # symetry
+    }
+  }
+  
+  sim.mtrx[is.na(sim.mtrx)] = 0 # set NA values to 0
+  
+  if(!is.null(names(partitions))) {
+    colnames(sim.mtrx) = names(partitions)
+    row.names(sim.mtrx) = names(partitions)
+  }
+  
+  return(sim.mtrx)
 }
 
 
