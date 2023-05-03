@@ -103,9 +103,14 @@ VOTE.IYP2SYMB["Against"] <- VOTE.AGST
 # Group mapping (Tu treba dat vsetky mozne aliasy pre strany v 7 volebnom obdobi)
 #############################################################################################
 GROUP.IYP2SYMB <- c()
-GROUP.IYP2SYMB["Male"] <- GROUP.MALE
-GROUP.IYP2SYMB["Female"] <- GROUP.FEMALE
-
+GROUP.IYP2SYMB["SMER – sociálna demokracia"] <- GROUP.SMER
+GROUP.IYP2SYMB["Slovenská národná strana"] <- GROUP.SNS
+GROUP.IYP2SYMB["#SIEŤ"] <- GROUP.SIET
+GROUP.IYP2SYMB["OBYČAJNÍ ĽUDIA a nezávislé osobnosti (OĽANO-NOVA)"] <- GROUP.OLANO
+GROUP.IYP2SYMB["MOST-HÍD"] <- GROUP.MOST
+GROUP.IYP2SYMB["Sloboda a Solidarita"] <- GROUP.SAS
+GROUP.IYP2SYMB["Kotleba - Ľudová strana Naše Slovensko"] <- GROUP.LSNS
+GROUP.IYP2SYMB["SME RODINA - Boris Kollár"] <- GROUP.SMERODINA
 
 
 
@@ -135,7 +140,7 @@ GROUP.IYP2SYMB["Female"] <- GROUP.FEMALE
 poslanci = read.csv("/home/samuel/bachelorsthesis/data/7volobdobie_attributes.csv")
 IYP.MEP.IDS		<- poslanci$mp_id
 # list of the effective vote ids
-hlasovania = read.csv("/home/samuel/bachelorsthesis/data/7volobdobie_rollcalls.csv")
+hlasovania = read.csv("/home/samuel/bachelorsthesis/data/7volobdobie_rollcalls_legislative.csv")
 IYP.VOTE.IDS	<- hlasovania$vote_id_total
 # list of the effective domain ids
 IYP.DOMAIN.IDS	<- 26:58#[-c(32,45,49,50,52)]

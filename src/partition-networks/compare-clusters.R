@@ -65,56 +65,41 @@ compare.partition.pair <- function(partition1, partition2, measures="nmi")
 #
 # returns: vector of values corresponding to each specified measures.
 #############################################################################################
-compare.partition.pair2 <- function(partition1, partition2, measures="nmi")
-{	# init result vector
-	result <- rep(NA,length(measures))
-	names(result) <- measures
-	
-	# ===========================================================
-	# get rid of the "NA" values: detect the "NA" indexes and do "AND" operator for intersection
-	tmp.p1 = partition1
-	tmp.p2 = partition2
-	
-	indx1 = which(is.na(partition1))
-	tmp.p1[indx1] = 0
-	tmp.p1[-indx1] = 1
-	indx2 = which(is.na(partition2))
-	tmp.p2[indx2] = 0
-	tmp.p2[-indx2] = 1
-	
-	commun.indx = tmp.p1 & tmp.p2
-	p1 = partition1[commun.indx]
-	p2 = partition2[commun.indx]
-	# ===========================================================
-	
-	
-	
-	
-	if("adjusted.rand" %in% measures){
-		library(clues)
-		res = adjustedRand(p1, p2)
-		result["adjusted.rand"] = (res["HA"]+1)/2 # normalize the value as ARI is between -1 and +1
-	} else if("adjusted.rand2" %in% measures){
-		library(clues)
-		res = adjustedRand(p1, p2)
-		result["adjusted.rand2"] = res["HA"]
-		if(res["HA"]<0) result["adjusted.rand2"] = 0 # as neg values rarelt occur, set them 0
-	} else if("F.purity" %in% measures){
-		library(NMF)
-		res1 = NMF::purity(as.factor(p1), as.factor(p2))
-		res2 = NMF::purity(as.factor(p2), as.factor(p1))
-		result["F.purity"] = (2*res1*res2)/(res1+res2)
-	} else{
-		
-		# process measures for specified partitions: "nmi" and "rand"
-		for(measure in measures)
-			result[measure] <- igraph::compare(p1, p2, method=measure)
-	}
-	
-	# TODO one can add the processing of other measures here if needed
-	
-	
-	return(result)
+compare.partition.pair2 <- function(partition1, partition2, measures="nmi") {
+  
+  # init result vector
+  result <- rep(NA,length(measures))
+  names(result) <- measures
+  
+  # process measures for specified partitions: "nmi" and "rand"
+  for (i in seq_along(measures)) {
+    measure <- measures[i]
+    
+    if (measure %in% c("adjusted.rand", "adjusted.rand2")) {
+      if (requireNamespace("clues", quietly = TRUE)) {
+        res <- adjustedRand(partition1, partition2)
+        if (measure == "adjusted.rand") {
+          result[i] <- (res["HA"]+1)/2 # normalize the value as ARI is between -1 and +1
+        } else {
+          result[i] <- max(res["HA"], 0) # as neg values rarelt occur, set them 0
+        }
+      } else {
+        warning("Package 'clues' not installed, cannot compute adjusted rand measures.")
+      }
+    } else if (measure == "F.purity") {
+      if (requireNamespace("NMF", quietly = TRUE)) {
+        res1 <- NMF::purity(as.factor(partition1), as.factor(partition2))
+        res2 <- NMF::purity(as.factor(partition2), as.factor(partition1))
+        result[i] <- (2*res1*res2)/(res1+res2)
+      } else {
+        warning("Package 'NMF' not installed, cannot compute F purity measure.")
+      }
+    } else {
+      result[i] <- igraph::compare(partition1, partition2, method=measure)
+    }
+  }
+  
+  return(result)
 }
 
 

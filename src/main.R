@@ -46,19 +46,19 @@ domains <- c(DOMAIN.ALL)
 #domains <- c(DOMAIN.VW2SYMB[TEST.DOMAINS],DOMAIN.ALL)
 ##################### dates
 #dates <- c(DATE.T7.YEARS, DATE.T7.TERM)			# which time periods to process individually
-#DATE.T7.YEARS <- c(DATE.T7.Y2, DATE.T7.Y3, DATE.T7.Y4, DATE.T7.Y5)
+#DATE.T7.YEARS <- c(DATE.T7.Y1, DATE.T7.Y3, DATE.T7.Y4, DATE.T7.Y5)
 #dates <- c(DATE.T7.TERM)
-#dates <- c(DATE.T7.Y1)
+dates <- c(DATE.T7.Y5)
 #DATE.T7.YEARS <- c(DATE.T7.Y2, DATE.T7.Y3, DATE.T7.Y5)
 #dates = c(DATE.T7.YEARS)
-dates <- c(
+#dates <- c(
 #		DATE.T7.Y1,
 #		DATE.T7.Y2,
 #		DATE.T7.Y3,
-		DATE.T7.Y4
+#		DATE.T7.Y4
 #		DATE.T7.Y5,
 #		DATE.T7.TERM
-)
+#)
 #dates <- TEST.YEARS
 ##################### everything at once
 #everything <- TRUE								# whether or not to process all data without distinction of country or date
@@ -72,9 +72,9 @@ countries <- c(COUNTRY.SK)
 
 ##################### groups
 #groups <- GROUP.VALUES
-groups <- c(GROUP.FEMALE)
+#groups <- c(GROUP.SIET)
 # which group to process individually
-#groups <- c(GROUP.SMER, GROUP.SNS, GROUP.SIET, GROUP.OLANO, GROUP.MOST, GROUP.SAS, GROUP.LSNS, GROUP.SMERODINA)
+groups <- c(GROUP.SMER, GROUP.SNS, GROUP.SIET, GROUP.OLANO, GROUP.MOST, GROUP.SAS, GROUP.LSNS, GROUP.SMERODINA)
 #groups <- GROUP.VW2SYMB[TEST.GROUPS]
 #groups <- c(
 #	GROUP.ALDE,GROUP.ECR,GROUP.EFD,GROUP.EPP
@@ -140,12 +140,12 @@ cons.vote.types.list = list(FAA=FAA)
 # It is applied for all possible values of 'k'. One drawback for this approach is that we use fixed thresholds.
 # When  Italy and France are treated at the same time, the same fixed threshold may not fit both countries.
 # On the other hand, small values of k should be enough for the EP data, since there is not many EP political groups.
-K.FOCUS.LIMITS = c(1,100)
+K.FOCUS.LIMITS = c(1,7)
 
 # another way of choosing a subset of k values is to specify an epsilon value.
 # Note that K.FOCUS.LIMITS and EPSILON are not mutual exclusive, the intersected k values are used.
-#EPSILON = NA # take all silhouette scores
-EPSILON = 0.10
+EPSILON = NA # take all silhouette scores
+#EPSILON = 0.50
 #EPSILON = 0 # retreive only the best silhouette score and the associated partition
 # ========================================================================================
 
@@ -309,7 +309,7 @@ tlog("Done!")
 # - in clustering process: we use the term "faction" in the paper for the k-medoids results.
 #		However, in the code, we did not distinguish between clustering of a single rollcall netork 
 #			and roll-call clustering (based on all considered roll-calls) with the associated dissimilarty matrix.
-# - A post-processing may be re quired for the membership vector, depending on the used partitioning method.
+# - A post-processing may be required for the membership vector, depending on the used partitioning method.
 #		For instance, ExCC may not handle zero degreed-nodes, and may put inside a cluster.
 #		So far, we do no handle/adjust any membership vector in the code. However, we handle it for Circos image files
 

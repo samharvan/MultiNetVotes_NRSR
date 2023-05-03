@@ -45,8 +45,12 @@ compare.aggregated.rollcall.network.by.cluster = function(folder, algo.name, nb.
 			counter=counter+1
 			print(counter)
 			mem.file = file.path(folder.clu.no.partitions, paste0(algo.name,"-membership.txt"))
-			partitions[[counter]] = read.table(mem.file)$V1
-			names(partitions)[counter] = paste(desc," ","abs.thresh=",abs.thresh," ","clu=",i, sep="")
+			if (!file.exists(mem.file)){
+			  next
+			}else{
+			  partitions[[counter]] = read.table(mem.file)$V1
+			  names(partitions)[counter] = paste(desc," ","abs.thresh=",abs.thresh," ","clu=",i, sep="")
+			}
 		}	
 	}
 	print(partitions)

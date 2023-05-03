@@ -274,42 +274,67 @@ record.and.plot.silhouette.scores = function(silhouette.scores.file, avg.sil.lis
 #
 # returns a list containing average silhouette scores associated with clustering result (i.e. partition)
 #############################################################################################
-perform.clustering = function(sim.mtrx, clu.algo.name=KMEDOIDS){
+#perform.clustering = function(sim.mtrx, clu.algo.name=KMEDOIDS){
 	
-	res = list()
-	mtrx.size = nrow(sim.mtrx)
-	sim.mtrx[is.na(sim.mtrx)] <- 0
-	diss.mtrx = 1-sim.mtrx
-	avg.sil.list = c()
-	partitions = list()
+#	res = list()
+#	mtrx.size = nrow(sim.mtrx)
+#	diss.mtrx = 1-sim.mtrx
+#	avg.sil.list = c()
+#	partitions = list()
 	
 	# when we start to iterate from 1, we get the following error: Error in sil[, COL.SILH.WIDTH] : nombre de dimensions incorrect
-	avg.sil.list[1]=NA
-	for(k in 2:(mtrx.size-1)) { # 'k' must be in {1,2, .., n-1} for pam()
-	  res=NA
-		if(clu.algo.name == KMEDOIDS)
-			res = pam(diss.mtrx,k, diss=TRUE)
+#	avg.sil.list[1]=NA
+#	for(k in 2:(mtrx.size-1)) { # 'k' must be in {1,2, .., n-1} for pam()
+#	  tlog("clustering performed for",k)
+#	  res=NA
+#		if(clu.algo.name == KMEDOIDS)
+#			res = pam(diss.mtrx,k, diss=TRUE)
 #		else
 #			res = ANOTHER.METHOD(diss.mtrx, k)
 		
-		sil = silhouette(res$clustering,diss.mtrx)
+#		sil = silhouette(res$clustering,diss.mtrx)
 		
-		partitions[[k]] = res$clustering
+#		partitions[[k]] = res$clustering
 		# 'silhouette' score is computed for each point, take the average of them
-		avg.sil.list[k] = mean(sil[,COL.SILH.WIDTH])
-	}
+#		avg.sil.list[k] = mean(sil[,COL.SILH.WIDTH])
+#	}
 	# if 'silhouette' score is 1 for point1, that means the point is well placed in its cluster (by means of avg. dissim.)
 	# if 'silhouette' score is -1 for point1, that is the opposite meaning
 	
-	names(avg.sil.list) = 1:(mtrx.size-1)
-	res[["avg.sil.list"]] = avg.sil.list
-	names(partitions) = 1:(mtrx.size-1)
-	res[["partitions"]] = partitions
+#	names(avg.sil.list) = 1:(mtrx.size-1)
+#	res[["avg.sil.list"]] = avg.sil.list
+#	names(partitions) = 1:(mtrx.size-1)
+#	res[["partitions"]] = partitions
 	
-	return(res)
+#	return(res)
+#}
+perform.clustering = function(sim.mtrx, clu.algo.name=KMEDOIDS){
+  res = list()
+  mtrx.size = nrow(sim.mtrx)
+  diss.mtrx = 1-sim.mtrx
+  partitions = vector("list", mtrx.size/10)
+  avg.sil.list = vector("numeric", mtrx.size/10)
+  
+  for(k in 2:(mtrx.size/10)) {
+    tlog("clustering performed for",k)
+    if(clu.algo.name == KMEDOIDS)
+      res = pam(diss.mtrx,k, diss=TRUE)
+    else
+      res = ANOTHER.METHOD(diss.mtrx, k)
+    
+    sil = silhouette(res$clustering,diss.mtrx)
+    
+    partitions[[k]] = res$clustering
+    avg.sil.list[k] = mean(sil[,COL.SILH.WIDTH])
+  }
+  
+  names(avg.sil.list) = 1:(mtrx.size/10)
+  res[["avg.sil.list"]] = avg.sil.list
+  names(partitions) = 1:(mtrx.size/10)
+  res[["partitions"]] = partitions
+  
+  return(res)
 }
-
-
 
 
 #############################################################################################
@@ -499,10 +524,9 @@ cluster.rollcalls <- function(rollcall.details, score.file, domains, dates, coun
 			
 			# check if there's enough data remaining
 			if(nb.rollcall>1)
-			{	
+			{	source("src/define-imports.R")
 				# process each rollcall
 			  for(i in 1:nb.rollcall) {
-			    source("src/define-imports.R")
 			    tlog("..........Processing rollcall",i,"/",nb.rollcall)
 					
 					rollcall.id = as.character(filtered.rollcall.ids[i])
@@ -515,10 +539,12 @@ cluster.rollcalls <- function(rollcall.details, score.file, domains, dates, coun
 					f.name = paste0("membership-votetype",cons.vote.types.desc)
 					partition.file <- file.path(in.rollcall.folder, paste0(f.name, ".txt"))
 					partition = NA
-					if(!file.exists(partition.file))
-						tlog("........Partition file ",partition.file," not found")
-					else {
-						partition <- as.matrix(read.table(partition.file))
+					partition <- tryCatch({
+					  as.matrix(read.table(partition.file))
+					}, error = function(e) {
+					  tlog("........Partition file ",partition.file," not found")
+					  NA
+					})
 						partitions.date.dom[[rollcall.id]] = partition
 						partitions.term[[rollcall.id]] = partition
 					}
@@ -528,7 +554,7 @@ cluster.rollcalls <- function(rollcall.details, score.file, domains, dates, coun
 			
 			# ==================================================================================
 			# process for each measure
-			for(measure in measures){ # in general, there is only 1 measure
+			for(measure in measures){ #in general, there is only 1 measure
 				perform.rollcall.clustering(rollcall.details, filtered.rollcall.ids, par.folder, partitions.date.dom, measure, out.date.folder,
 						clu.algo.name, cons.vote.types.desc, epsilon, k.focus.limits, score.file, country, group, dom, DATE.STR.T7[date])
 			}
@@ -538,7 +564,7 @@ cluster.rollcalls <- function(rollcall.details, score.file, domains, dates, coun
 		
 		
 	} # end for Domains
-}
+
 
 
 

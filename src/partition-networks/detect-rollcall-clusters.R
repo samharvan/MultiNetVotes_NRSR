@@ -53,7 +53,7 @@ find.unavailable.meps.by.rollcall.id = function(rollcall.id, rollcall.details, m
 #############################################################################################
 fill.membership.by.vote.type = function(vote, cons.vote.types, nb.mep, indx.unavailable.meps){
 	# init
-	mbrshp = rep(NA, nb.mep)
+	mbrshp = rep(5, nb.mep)
 	
 	counter = 0 
 	for(vote.type in cons.vote.types){
