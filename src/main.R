@@ -48,7 +48,7 @@ domains <- c(DOMAIN.ALL)
 #dates <- c(DATE.T7.YEARS, DATE.T7.TERM)			# which time periods to process individually
 #DATE.T7.YEARS <- c(DATE.T7.Y1, DATE.T7.Y3, DATE.T7.Y4, DATE.T7.Y5)
 #dates <- c(DATE.T7.TERM)
-dates <- c(DATE.T7.Y5)
+dates <- c(DATE.T7.Y1)
 #DATE.T7.YEARS <- c(DATE.T7.Y2, DATE.T7.Y3, DATE.T7.Y5)
 #dates = c(DATE.T7.YEARS)
 #dates <- c(
@@ -72,9 +72,9 @@ countries <- c(COUNTRY.SK)
 
 ##################### groups
 #groups <- GROUP.VALUES
-#groups <- c(GROUP.SIET)
+groups <- c(GROUP.SECPRI)
 # which group to process individually
-groups <- c(GROUP.SMER, GROUP.SNS, GROUP.SIET, GROUP.OLANO, GROUP.MOST, GROUP.SAS, GROUP.LSNS, GROUP.SMERODINA)
+#groups <- c(GROUP.SMER, GROUP.SNS, GROUP.SIET, GROUP.OLANO, GROUP.MOST, GROUP.SAS, GROUP.LSNS, GROUP.SMERODINA)
 #groups <- GROUP.VW2SYMB[TEST.GROUPS]
 #groups <- c(
 #	GROUP.ALDE,GROUP.ECR,GROUP.EFD,GROUP.EPP

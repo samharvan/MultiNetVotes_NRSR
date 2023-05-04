@@ -103,14 +103,8 @@ VOTE.IYP2SYMB["Against"] <- VOTE.AGST
 # Group mapping (Tu treba dat vsetky mozne aliasy pre strany v 7 volebnom obdobi)
 #############################################################################################
 GROUP.IYP2SYMB <- c()
-GROUP.IYP2SYMB["SMER – sociálna demokracia"] <- GROUP.SMER
-GROUP.IYP2SYMB["Slovenská národná strana"] <- GROUP.SNS
-GROUP.IYP2SYMB["#SIEŤ"] <- GROUP.SIET
-GROUP.IYP2SYMB["OBYČAJNÍ ĽUDIA a nezávislé osobnosti (OĽANO-NOVA)"] <- GROUP.OLANO
-GROUP.IYP2SYMB["MOST-HÍD"] <- GROUP.MOST
-GROUP.IYP2SYMB["Sloboda a Solidarita"] <- GROUP.SAS
-GROUP.IYP2SYMB["Kotleba - Ľudová strana Naše Slovensko"] <- GROUP.LSNS
-GROUP.IYP2SYMB["SME RODINA - Boris Kollár"] <- GROUP.SMERODINA
+GROUP.IYP2SYMB["tertiary"] <- GROUP.TERT
+GROUP.IYP2SYMB["secondary/primary"] <- GROUP.SECPRI
 
 
 
